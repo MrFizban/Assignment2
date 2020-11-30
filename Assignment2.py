@@ -57,9 +57,10 @@ def execute_and_print_query (path):
 
 def file_execute (path = "", file =""):
     # chek extensione file
+    
     len_path = len(file)
     if file.rfind(".sql", len_path - 4, len_path) > -1:
-
+        
         # chek file number
         if file.rfind("query_") > -1:
             chek_resul(table= execute_and_print_query(os.path.join(path,file)), file=file)
@@ -75,17 +76,19 @@ def chek_resul(table,file):
         number = [int(num) for num in findall(r"\d+", file)]
         dirpath = os.path.join(os.path.dirname(os.path.realpath(__file__)),"src","csv",f"query_{number[-1]}.csv")
         confronto = pd.read_csv(dirpath,sep=";")
-
+        
         if table.equals(confronto):
             print(f"[WIN] {file} check succeed")
         else:
             print(f"[LOSE] {file} chek non succed ")
-            if confronto.columns.all == table.columns.all:
-                print("your query:")
-                print(confronto[table.ne(confronto).any(axis=1)])
-                print("compare file:")
-                print(table[confronto.ne(table).any(axis=1)])
+            if confronto.columns[0] ==  table.columns[0]:
+                print("[ERROR] data does not math:")
+                print(pd.concat([table,confronto]).drop_duplicates(keep=False))
+                print(confronto)
             else:
+                print(confronto.columns[0])
+                print(table.columns[0])
+                print(confronto.columns[0] == table.columns[0])
                 print("[ERROR] label does not math:")
                 print("your label:   ", table.columns)
                 print("confron file :", confronto.columns)
@@ -97,6 +100,7 @@ def chek_resul(table,file):
 
     except FileNotFoundError as e:
         print("[ERROR] no compare file available")
+    
 
 
 try:
@@ -105,7 +109,6 @@ try:
 
 except FileNotFoundError as e:
     print("NO FILE CONFIG")
-
 if anagrafica['dbname'] == None:
     anagrafica['dbname'] = input("database: ")
 
@@ -116,16 +119,18 @@ if anagrafica['password'] == None:
     anagrafica['password'] = input("password: ")
 
 if args['--file']:
+    
     file_execute(file=args['<path>'])
 
 if args["--directory"]:
 
     files = []
+    
     for (dirpath, dirnames, filenames) in os.walk(args['<path>']):
         files.extend(filenames)
         for file in files:
             file_execute(path=args['<path>'], file=file)
-
+    
 
 
 if args["--load-data"]:
