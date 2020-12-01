@@ -1,5 +1,7 @@
-SELECT  st.country
-FROM "Match" as mt, "Stadium" as st, "Nationality" as nt
-WHERE ((mt.home = nt.country) OR (mt.guest = nt.country)) AND (st.name = mt.stadium) AND nt.continent = 'Europe'
-GROUP BY st.city
-ORDER BY city ASC
+SELECT DISTINCT st.country
+FROM "Nationality" AS nt, "Stadium" AS st
+WHERE st.country = nt.country AND st.capacity > 20000
+EXCEPT
+SELECT DISTINCT st.country
+FROM "Nationality" AS nt, "Stadium" AS st
+WHERE st.country = nt.country AND st.capacity <= 20000

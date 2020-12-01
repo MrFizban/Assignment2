@@ -4,7 +4,7 @@ Usage:
     Assignment2.py --directory <path> [--print]
     Assignment2.py --zip <path>
     Assignment2.py --set-connection [--dbname <database>] [--user <user>] [--password <password>]
-    Assignment2.py --load-data
+    Assignment2.py --load-data [--old]
 
 Options:
     -h --help           print this page
@@ -13,6 +13,8 @@ Options:
     -z --zip            [in development] chek all the files within the compressed folder
     -l --load-data      load table in database
     -p --print          print the table
+
+    --old
 
     --dbname
     --user
@@ -84,7 +86,7 @@ def chek_resul(table,file):
             print(f"[WIN] {file} check succeed")
         else:
             print(f"[LOSE] {file} chek non succed ")
-<<<<<<< HEAD
+
 
             if confronto.columns ==  table.columns:
                 print("[ERROR] data does not math:")
@@ -92,19 +94,15 @@ def chek_resul(table,file):
                 print(confronto.isin(table))
             else:
 
-=======
-            if confronto.columns[0] ==  table.columns[0]:
-                print("[ERROR] data does not math:")
-                print(pd.concat([table,confronto]).drop_duplicates(keep=False))
-                print(confronto)
-            else:
-                print(confronto.columns[0])
-                print(table.columns[0])
-                print(confronto.columns[0] == table.columns[0])
->>>>>>> main
-                print("[ERROR] label does not math:")
-                print("your label:   ", table.columns)
-                print("confron file :", confronto.columns)
+                if confronto.columns[0] ==  table.columns[0]:
+                    print("[ERROR] data does not math:")
+                    print(pd.concat([table,confronto]).drop_duplicates(keep=False))
+                    print(confronto)
+                else:
+                    print("[ERROR] label does not math:")
+                    print("your label:   ", table.columns)
+                    print("confron file :", confronto.columns)
+
         if args["--print"]:
             print("===========================================================================")
             print("---------------------------------------------------------------------------")
@@ -114,12 +112,12 @@ def chek_resul(table,file):
     except FileNotFoundError as e:
         print("[ERROR] no compare file available")
     
-<<<<<<< HEAD
-    except ValueError as e:
-        pass
-=======
 
->>>>>>> main
+    except ValueError as e:
+        print("[ERROR] ValueError" + e.__str__())
+
+
+
 
 try:
     with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "src", "config.json")) as file:
@@ -154,7 +152,9 @@ if args["--directory"]:
 if args["--load-data"]:
     with (psycopg2.connect(dbname=anagrafica['dbname'], user=anagrafica['user'], host='sci-didattica.unitn.it',
                            password=anagrafica['password'])) as connection:
-        percorso = os.path.join(os.path.dirname(os.path.realpath(__file__)),"src","data", "new_database.sql")
+
+        percorso = os.path.join(os.path.dirname(os.path.realpath(__file__)), "src", "data", "new_database.sql")
+
         cur = connection.cursor()
 
         cur.execute(open(percorso, 'r',encoding="utf8").read())

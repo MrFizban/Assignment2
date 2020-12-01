@@ -1,7 +1,7 @@
 SELECT st.name as stadium
-FROM "Stadium" as st
-WHERE NOT EXISTS (SELECT  st.name as stadium
-    FROM  "Stadium" as st, "Nationality" as nt, "Match" AS mt
-    WHERE  (mt.home = nt.country OR mt.guest = nt.country)  AND st.name = mt.stadium AND mt.stadium = st.name AND nt.continent <>  'Europe'
-    GROUP BY st.name
-    ORDER BY st.name)
+FROM "Stadium" as st, "Match" as mt, "Nationality" as nt
+WHERE mt.home = 'Europe' OR mt.guest = 'Europe' AND (st.name = mt.stadium)
+EXCEPT
+SELECT st.name as stadium
+FROM "Stadium" as st, "Match" as mt, "Nationality" as nt
+WHERE mt.home <> 'Europe' OR mt.guest <> 'Europe'
