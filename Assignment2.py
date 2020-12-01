@@ -84,6 +84,7 @@ def chek_resul(table,file):
             print(f"[WIN] {file} check succeed")
         else:
             print(f"[LOSE] {file} chek non succed ")
+<<<<<<< HEAD
 
             if confronto.columns ==  table.columns:
                 print("[ERROR] data does not math:")
@@ -91,6 +92,16 @@ def chek_resul(table,file):
                 print(confronto.isin(table))
             else:
 
+=======
+            if confronto.columns[0] ==  table.columns[0]:
+                print("[ERROR] data does not math:")
+                print(pd.concat([table,confronto]).drop_duplicates(keep=False))
+                print(confronto)
+            else:
+                print(confronto.columns[0])
+                print(table.columns[0])
+                print(confronto.columns[0] == table.columns[0])
+>>>>>>> main
                 print("[ERROR] label does not math:")
                 print("your label:   ", table.columns)
                 print("confron file :", confronto.columns)
@@ -103,8 +114,12 @@ def chek_resul(table,file):
     except FileNotFoundError as e:
         print("[ERROR] no compare file available")
     
+<<<<<<< HEAD
     except ValueError as e:
         pass
+=======
+
+>>>>>>> main
 
 try:
     with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "src", "config.json")) as file:
