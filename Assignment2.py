@@ -49,7 +49,7 @@ def execute_and_print_query (path):
                 print("---------------------------------------------------------------------------")
                 print("===========================================================================")
                 print(f"resoult from {path}:")
-                pd.set_option('display.max_rows', my_table.shape[0] + 1)
+                #pd.set_option('display.max_rows', my_table.shape[0] + 1)
                 pd.options.display.width = 0
                 pd.set_option('display.max_columns', my_table.shape[1] + 1)
                 print(my_table)
@@ -88,7 +88,7 @@ def chek_resul(table,file):
             print(f"[LOSE] {file} chek non succed ")
 
 
-            if confronto.columns ==  table.columns:
+            if confronto.columns[0] ==  table.columns[0]:
                 print("[ERROR] data does not math:")
                 print(pd.concat([table,confronto]).drop_duplicates(keep=False))
                 print(confronto.isin(table))
