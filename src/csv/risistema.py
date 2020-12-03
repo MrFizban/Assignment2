@@ -1,9 +1,12 @@
 
 testo= []
-with open("query_7.csv",'r') as file:
+with open("query_10.csv",'r') as file:
     for linea in file.readlines():
-        testo.append(linea.replace(" \n", "\n"))
+        temp = linea
+        temp = temp.replace(" \n", "\n")
+        temp = temp.replace("; ", ";")
+        testo.append(temp)
 
-with open("query_7.csv", "w") as file:
+with open("query_10.csv", "w") as file:
     for linea in testo:
         file.write(linea)

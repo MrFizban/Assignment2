@@ -145,6 +145,7 @@ if args["--directory"]:
     for (dirpath, dirnames, filenames) in os.walk(args['<path>']):
         files.extend(filenames)
         for file in files:
+            #print(f"Name File: {file}")
             file_execute(path=args['<path>'], file=file)
     
 
