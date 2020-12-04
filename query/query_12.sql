@@ -1,4 +1,4 @@
-SELECT tabella.stadium, tabella.date, tabella.time, tabella.home, tabella.guest
+SELECT tabella.stadium, tabella.date, tabella.time
 FROM
     (SELECT *
         FROM "Match" as mt
